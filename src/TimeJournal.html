@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Tracker - Google Sheets</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/jsrsasign@10.5.25/lib/jsrsasign-all-min.js"></script>
+    <script src="script.js"></script>
+    <div class="container">
+        <div class="header">
+            <h1>Time Journal ^-^</h1>
+            <p>Track your daily activities with Google Sheets</p>
+        </div>
+
+        <div class="setup-section" id="setupSection">
+            <h2>Setup Your Tracker</h2>
+            <p>Enter your Google Service Account credentials and spreadsheet ID. Your settings will be saved securely in your browser.</p>
+
+            <div class="input-group">
+                <label>Service Account JSON Key</label>
+                <div id="dropZone" class="drop-zone">
+                    <div class="drop-zone-content">
+                        <div class="upload-icon">📁</div>
+                        <p class="drop-zone-text">Drag & drop your credentials.json file here</p>
+                        <p class="drop-zone-or">or</p>
+                        <button type="button" class="browse-button" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+                        <input type="file" id="fileInput" accept=".json" style="display: none;">
+                    </div>
+                    <div id="fileInfo" class="file-info" style="display: none;">
+                        <div class="file-icon">✅</div>
+                        <div class="file-details">
+                            <p class="file-name"></p>
+                            <p class="file-size"></p>
+                        </div>
+                        <button type="button" class="remove-file" onclick="removeFile()">✖</button>
+                    </div>
+                </div>
+                <div class="help-text">Download this from Google Cloud Console → Service Accounts → Create Key (JSON)</div>
+            </div>
+
+            <div class="input-group">
+                <label for="spreadsheetIdInput">Your Spreadsheet ID</label>
+                <input type="text" id="spreadsheetIdInput" placeholder="Enter your Google Sheets ID">
+                <div class="help-text">
+                    Find this in your spreadsheet URL:<br>
+                    docs.google.com/spreadsheets/d/<strong>SPREADSHEET_ID</strong>/edit
+                </div>
+                <div class="example">Example: 13-jynghNoDEM_1HmI7EiXgXf7DwZ2UfFBrLVKM</div>
+            </div>
+
+            <button onclick="saveSettings()">
+                Start Tracking
+            </button>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="dateInput">Select Date</label>
+                    <input type="date" id="dateInput">
+                </div>
+                <div class="control-group">
+                    <button onclick="loadDayData()">Load Day</button>
+                </div>
+                <div class="control-group">
+                    <button class="reset" onclick="resetSettings()">Change Settings</button>
+                </div>
+            </div>
+
+            <div class="activity-selector">
+                <h3>📋 Select Activity</h3>
+                <div class="activity-grid" id="activityGrid"></div>
+            </div>
+
+            <div class="time-grid">
+                <h3>🕐 Fill Time Slots (Click to add selected activity)</h3>
+                <div id="timeGridContainer"></div>
+            </div>
+
+            <button class="save-button" onclick="saveToSheet()">
+                💾 Save to Google Sheets
+            </button>
+
+            <div id="status"></div>
+        </div>
+    </div>
+</body>
+</html>
